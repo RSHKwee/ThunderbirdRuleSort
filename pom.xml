@@ -1,0 +1,178 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>kwee</groupId>
+  <artifactId>thunderbirdrulesort</artifactId>
+  <version>0.0.0.1</version>
+  <packaging>jar</packaging>
+  <name>thunderbirdrulesort</name>
+
+  <parent>
+	<groupId>kwee</groupId>
+	<artifactId>aggregator</artifactId>
+	<version>1.1.0.3</version>
+	<relativePath>..\\pom.xml</relativePath>
+  </parent>
+  
+  <properties>
+    <project.description>Sort Thunderbird rules</project.description>
+  </properties>
+ 
+  <dependencies>
+ 	<dependency>
+	  <groupId>kwee</groupId>
+	  <artifactId>library</artifactId>
+	  <version>${kweeLibrary.version}</version>
+	</dependency> 
+
+    <dependency>
+        <groupId>com.healthmarketscience.jackcess</groupId>
+        <artifactId>jackcess</artifactId>
+        <version>4.0.1</version>
+    </dependency>
+    <dependency>
+        <groupId>com.healthmarketscience.jackcess</groupId>
+        <artifactId>jackcess-encrypt</artifactId>
+        <version>4.0.1</version>
+    </dependency>
+
+        
+  </dependencies>
+  
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>   
+
+    <!--  <pluginManagement> -->
+	<plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>${maven-enforcer-plugin.version}</version> <!-- Gebruik een geschikte versie van de plugin -->
+        <executions>
+          <execution>
+            <id>enforce-maven-version</id>
+            <goals>
+             <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+               <requireMavenVersion>
+                 <version>${maven.min.version}</version> <!-- Minimale Maven-versie vereist -->
+                </requireMavenVersion>
+              </rules>
+              <fail>true</fail> <!-- Stop de build bij niet-naleving -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>   
+      <plugin>
+		<artifactId>maven-assembly-plugin</artifactId>
+   		<version>${maven-assembly-plugin.version}</version>      
+		<executions>
+          <execution>
+			<phase>package</phase>
+			<goals>
+			  <goal>single</goal>
+			</goals>
+          </execution>
+        </executions>
+		<configuration>
+          <archive>
+            <manifest>
+		      <addClasspath>true</addClasspath>
+		      <mainClass>kwee.tools.main.Main</mainClass>
+		    </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <finalName>replacetool</finalName>
+        </configuration>
+      </plugin>
+	  <!-- Distribute readme.md v -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${maven-resources-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>readme-md</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <resources>                                        
+                <resource>
+                  <directory>.</directory>
+                  <includes>
+                    <include>readme.md</include>
+                    <include>*.PNG</include>
+                  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+              <encoding>UTF-8</encoding>
+            </configuration>
+          </execution>        
+        </executions>
+      </plugin>		
+	  <!-- readme.md ^ -->
+	  <!-- LAUNCH4J create executable v -->      
+      <plugin>
+         <groupId>com.akathist.maven.plugins.launch4j</groupId>
+         <artifactId>launch4j-maven-plugin</artifactId>
+         <version>${launch4j-maven-plugin.version}</version>
+         <executions>
+           <execution>
+             <id>l4j-clui</id>
+             <phase>package</phase>
+             <goals>
+               <goal>launch4j</goal>
+             </goals>
+             <configuration>
+               <headerType>console</headerType>
+               <jar>${project.build.directory}/replaceTool-jar-with-dependencies.jar</jar>
+               <outfile>${project.build.directory}/replaceTool.exe</outfile>
+               <downloadUrl>https://cdn.azul.com/zulu/bin/zulu22.32.21-ca-crac-jdk22.0.2-win_x64.zip</downloadUrl>
+               <classPath>
+                 <mainClass>kwee.tools.main.Main</mainClass>
+              </classPath>
+              <jre>
+	            <path>%java_home%</path>
+              </jre>
+              <versionInfo>
+                <fileVersion>${project.version}</fileVersion>
+                <txtFileVersion>${project.version}</txtFileVersion>
+                <fileDescription>${project.name}</fileDescription>
+                <copyright>C</copyright>
+                <productVersion>${project.version}</productVersion>
+                <txtProductVersion>${project.version}</txtProductVersion>
+                <productName>${project.name}</productName>
+                <internalName>replacetool</internalName>
+                <originalFilename>replaceTool.exe</originalFilename>
+              </versionInfo>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+<!--    </pluginManagement> -->
+  </build>
+  <distributionManagement>
+    <!-- Upload to Github v-->
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/RSHKwee/replaceTool</url>
+    </repository>
+    <!-- Upload to Github ^-->
+  </distributionManagement>
+</project>
