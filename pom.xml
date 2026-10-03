@@ -4,14 +4,14 @@
 
   <groupId>kwee</groupId>
   <artifactId>thunderbirdrulesort</artifactId>
-  <version>0.0.0.1</version>
+  <version>${revision}</version>
   <packaging>jar</packaging>
   <name>thunderbirdrulesort</name>
 
   <parent>
 	<groupId>kwee</groupId>
 	<artifactId>aggregator</artifactId>
-	<version>1.1.0.3</version>
+	<version>${revision}</version>
 	<relativePath>..\\pom.xml</relativePath>
   </parent>
   
@@ -23,20 +23,19 @@
  	<dependency>
 	  <groupId>kwee</groupId>
 	  <artifactId>library</artifactId>
-	  <version>${kweeLibrary.version}</version>
+	  <version>${revision}</version>
 	</dependency> 
 
     <dependency>
         <groupId>com.healthmarketscience.jackcess</groupId>
         <artifactId>jackcess</artifactId>
-        <version>4.0.1</version>
+        <version>5.0.2</version>
     </dependency>
     <dependency>
         <groupId>com.healthmarketscience.jackcess</groupId>
         <artifactId>jackcess-encrypt</artifactId>
-        <version>4.0.1</version>
+        <version>5.0.1</version>
     </dependency>
-
         
   </dependencies>
   
@@ -44,9 +43,9 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
-        <filtering>true</filtering>
+        <filtering>false</filtering>
       </resource>
-    </resources>   
+   </resources>   
 
     <!--  <pluginManagement> -->
 	<plugins>
@@ -107,7 +106,7 @@
             <goals>
               <goal>copy-resources</goal>
             </goals>
-            <configuration>
+            <configuration>			    
               <outputDirectory>${project.build.directory}</outputDirectory>
               <resources>                                        
                 <resource>
