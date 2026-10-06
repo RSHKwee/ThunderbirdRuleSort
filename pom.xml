@@ -29,12 +29,12 @@
     <dependency>
         <groupId>com.healthmarketscience.jackcess</groupId>
         <artifactId>jackcess</artifactId>
-        <version>5.0.2</version>
+        <version>${com.healthmarketscience.jackcess.jackcess.version}</version>
     </dependency>
     <dependency>
         <groupId>com.healthmarketscience.jackcess</groupId>
         <artifactId>jackcess-encrypt</artifactId>
-        <version>5.0.1</version>
+        <version>${com.healthmarketscience.jackcess.jackcess-encrypt.version}</version>
     </dependency>
         
   </dependencies>
